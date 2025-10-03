@@ -1,0 +1,57 @@
+# Lesson 01 - Introduction to API Testing
+
+## Key Points
+1 - What is an API?
+2 - What is Client and Server
+3 - 3 - Tier Architecture
+4 - Why API Testing is important in software testing
+5 - Types of an API - SOAP & Rest
+6 - API vs Webservice
+7 - Rest API HTTP Methods
+8 - HTTP vs HTTPS
+9 - Terminologies
+
+## My Learning Notes
+ 1 - An Application Programming Interface(API) is a set of rules and protocols that allows different software application to communicate with each other,acting as a messenger or intermediatory to exchange data and functions.
+ 2 - The client is the system (or user) that makes a request.Eg:Your web browser (Chrome, Firefox, Edge).
+     The server is the system that receives the request, processes it, and sends back a response.Eg:Google’s servers that store search data.
+ 3 - A 3-tier application is a software architecture divided into three layers.
+     Presentation Layer (Frint end of the application) - This is the UI (what the user sees and interacts with).
+     Example: A browser, mobile app, or web page (login screen, buttons, forms).
+     Application Layer (API layer) - This layer processes the business logic.It decides “what to do with the data”.
+     Example: Validating login credentials, applying discount rules, processing payments.
+     Data Layer (Backend of the application) - This is where the data is stored and managed.
+     Example: MySQL, PostgreSQL, Oracle DB.
+4 -  Core Functionality Validation - APIs are the backbone of applications (mobile apps, web apps).If APIs fail, the app may crash or show wrong data.
+     Early Bug Detection - API testing can be done before UI is ready.Developers and testers can find defects early in the development cycle, reducing cost and time.
+     Faster & More Reliable than UI Testing - API tests run faster because they don’t depend on a browser or user interface.More stable → UI may change often, but APIs usually remain consistent.
+     API testing is important because it validates the core functionality, security, and performance of applications. It helps detect bugs early, is faster and more reliable than UI testing, and ensures smooth communication between different systems.
+5 -  SOAP - Simple Object Access Protocol - Supports only XML.
+     Rest - Represtentational State Transfer - Supports XML,JSON,HTML,TEXT
+6 -  Webservice is an API wrapped in HTML
+     All web services are APIs, but not all APIs are web services.
+     A webservice needs network while API doesnot needs network for its operation.
+7 -  HTTP Method	 
+      GET	Retrieve data from the server (read-only).	
+      POST	Send data to the server to create a new resource.	
+      PUT	Update an existing resource completely.
+      PATCH	Update part of an existing resource.	
+      DELETE	Remove a resource from the server.	
+8 -  HTTP → Transfers data without security.
+     HTTPS → Transfers data securely using encryption.
+9 -  URI (Uniform Resource Identifier) - A URI is a name or address that identifies a resource on the internet.
+     URL (Uniform Resource Locator) - A URL is the web address used to locate and access a resource.
+     URN (Uniform Resource Name) - A URN uniquely identifies a resource by name, not by location.
+    
+     A Url example https://google.com/articles/articlename
+     Scheme/Protocol -  https
+     Host/Domain - google.com
+     Path/Endpoint - articles/articlename
+
+     Resource - A resource is anything that can be accessed or managed via an API or web service.It’s usually represented as data or an object. 
+     Payload - The payload is the actual data sent to or received from an API.It is usually in JSON or XML format.
+               A payload is the data carried in an API request or response
+
+
+      
+
