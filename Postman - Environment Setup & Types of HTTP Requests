@@ -1,1 +1,41 @@
+# Lesson 02 - Postman - Environment Setup & Types of HTTP Requests
 
+## Key Points
+  We can do manual testing of API's using POSTMAN.
+  postman supports both desktop version and web version.
+  1 -  Create Workspace (create,rename,delete)
+  2 -  Create Collection (create,rename,delete,run)
+  3 -  Creating Requests - Get, Post, Put & Delete   
+  4 -  Path parameter and query parameter
+  5 -  Things to be validated in response
+  6 -   Http statuscodes
+  7-    Exporting & Importing Collections
+
+
+## My Learning Notes
+  1 - Workspace - Area where we maintain files(all testcases,requests)and saved.
+  2 - Collection - A collection in Postman is a group of saved API requests that you can organize, run, and share.It’s like a folder of APIs.
+      We can create any number of collections under workspace.
+  3 - Request --> API --> Response
+      To test API we need to send requests to the API,API will recieve the request and fetch the data from the database,and provide response to the user.As an inpuut we pass the request and as output we get the response.
+      We do validations on the response(statusline,statuscode,responsebody,header,cookies,)
+      Types of requests - GET,POST,PUT,PATCH,DELETE
+  4 - https://reqres.in/api/users?page=2
+      host/domain - https://reqres.in/
+      Path paramter - api/users     (Used to identify a specific resource.)
+      Query parameter - page=2       (Used to filter, sort, or customize results.)  
+  5 - In API response, we validate status code, response time, response body (data correctness & schema), headers, cookies, and security aspects.
+  6 - 200 level,400 level,500 level 
+      2xx → Success
+      4xx → Client Error
+      5xx → Server Error
+      example - 200 – OK (Success)
+                201 – Created (Resource created)
+                400 – Bad Request (Client error, invalid request) 
+                401 – Unauthorized (Authentication required)
+                403 – Forbidden (No permission)
+                404 – Not Found (Resource not found)
+                500 – Internal Server Error (Server failure)
+                502 – Bad Gateway (Invalid response from upstream)
+                503 – Service Unavailable (Server overloaded or down)
+      
