@@ -1,0 +1,142 @@
+Lesson 4 - API Testing - Postman - API Response Validations - Different types of Assertions
+
+## Key points
+1) Validating Response by adding Tests
+2) Testing status codes
+3) Testing headers
+4) Testing cookies
+5) Testing response time
+6) Testing response body
+7) Testing JSON Schema
+
+## Learning notes
+
+1 - Before sending an API request, we should first understand what kind of request we are sending and what response we expect; otherwise, we cannot add proper validations, making it a prerequisite for effective testing.
+    Before adding assertions, always send the API request at least once to understand the actual response, and then add assertions based on that response.
+    Assertion - An assertion is a condition used to verify that the actual API response matches the expected result.
+    Assertions in Postman are added in the Tests tab using the pm library along with the Chai Assertion Library in JavaScript.
+    Chai Assertion Library
+    ----  Normal function ----
+    pm.test("Test name", function() { 
+    // assertions ;
+    });
+ 
+   ---- Arrow function -----
+     pm.test("Test name", () => { 
+    // assertions ;
+    });
+
+2 - Test for response status code
+    pm.test("Status code is 200", () => {
+    pm.response.to.have.status(200);
+     });
+
+    If you want to test for statuscode being one of a set,include then all in an array and use them.
+    pm.test("Status code should be one of 200, 201, 202", () => {
+    pm.expect(pm.response.code).to.be.oneOf([200, 201, 202]);
+   });
+
+   Check the statuscode text
+   pm.test("Status is Created", () => {
+    pm.response.to.have.status("Created");
+   });
+
+3 - only static or fixed header values can be reliably validated. Headers that change dynamically (like Date, Authorization tokens, or Request-Id) cannot be validated with fixed values.
+   
+    Check presence of a header
+    pm.test("Content-Type header is present", () => {
+    pm.response.to.have.header("Content-Type");
+    });
+
+    Check value of a header
+    pm.test("Content-Type is application/json", () => {
+    pm.response.to.have.header("Content-Type", "application/json");
+    });
+
+4 - Check presence of cookie
+    pm.test("Session cookie is present", () => {
+    pm.expect(pm.cookies.has("session_id")).to.be.true;
+    });
+
+    Test for a particular cookie value
+    pm.test("Session cookie value is 12345", () => {
+    pm.expect(pm.cookies.get("session_id")).to.eql("12345");
+   });
+
+5 - you cannot validate an exact response time because it can vary due to network latency, server load, or other factors.
+    Instead, you validate that the response time is below a threshold or within an acceptable range (e.g., <500ms or 100–500ms).
+    
+    Test if response time is below a limit 
+    pm.test("Response time is less than 500ms", () => {
+    pm.expect(pm.response.responseTime).to.be.below(500);
+    });
+
+    Test if response time is within a range
+     pm.test("Response time is between 100ms and 500ms", () => {
+    pm.expect(pm.response.responseTime).to.be.within(100, 500);
+    });
+
+6 - The response we receive depends entirely on the type of request sent, and there are various ways to validate the response body, with JSONPath playing a key role in extracting and verifying specific data.
+    
+  {
+    "id": "3",
+    "name": "David Johnson",
+    "age": 16,
+    "grade": "10th",
+    "subjects": [
+        "Computer Science",
+        "Spanish",
+        "Art"
+    ]
+ }
+
+  ----assert the type of a value----------
+    let jsonData = pm.response.json();
+    pm.test("Validate response data types", () => {
+    pm.expect(jsonData.id).to.be.a("string");
+    pm.expect(jsonData.name).to.be.a("string");
+    pm.expect(jsonData.age).to.be.a("number");
+    pm.expect(jsonData.grade).to.be.a("string");
+    pm.expect(jsonData.subjects).to.be.an("array");
+    pm.expect(jsonData.subjects[0]).to.be.a("string");
+    });   
+
+   Explanation - capture json data into the variable.Then, inside a single pm.test block, we check the type of each value (string, number, array, etc.).
+
+ ----- Asserting array properties-------
+  pm.test("Validate subjects array", () => {
+    //subjects include Spanish
+    pm.expect(jsonData.subjects).to.include("Spanish");
+    //subjects array must inclued all listed
+    pm.expect(jsonData.subjects).to.have.members(["Computer Science", "Spanish", "Art"]);
+ });
+
+  In Postman/Chai, to.have.members is used to assert that an array contains exactly all the specified members, regardless of order.
+
+Explanation - allready declare jsondata as global variable so no need to declate here. 
+
+---validating json fields in response------
+let jsonData = pm.response.json();
+
+pm.test("Validate field values", () => {
+    pm.expect(jsonData.id).to.eql("3");
+    pm.expect(jsonData.name).to.eql("David Johnson");
+    pm.expect(jsonData.age).to.eql(16);
+    pm.expect(jsonData.grade).to.eql("10th");
+    pm.expect(jsonData.subjects).to.include.members(["Computer Science", "Spanish", "Art"]);
+});
+
+Explanation - to.eql() checks exact equality for a field’s value.
+For arrays, use to.include.members() to ensure the array contains certain expected values.
+This ensures all fields in the response have the correct expected values.
+
+7 - JSON Schema is a blueprint that defines the structure, data types, and required fields of a JSON object for validation.
+     Generate json schema through online
+     put it in variable to test
+     Schema validation is the process of verifying that a JSON response matches the expected JSON Schema, ensuring correct structure, data types, and required fields.
+     Schema validation is important because it ensures that the API response has the correct structure, data types, and required fields, helping catch errors early, maintain consistency, and prevent downstream issues in applications that consume the API.
+
+    GET requests: Validate mainly the response body and optionally status code, headers, and response time.
+    POST, PUT, PATCH, DELETE requests: Validate status code, response body (if any), headers, JSON schema, and optionally response time.
+
+    validation depends on the request type and expected API behavior.
