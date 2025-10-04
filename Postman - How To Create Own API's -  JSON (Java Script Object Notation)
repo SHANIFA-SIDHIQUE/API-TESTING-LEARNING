@@ -1,1 +1,65 @@
+##Lesson 3 - Postman - How To Create Own API's -  JSON (Java Script Object Notation)
+
+## Key Points
+ Creating Dummy API’s for API  Testing
+ 1 - Install NodeJS software.by default npm(node package manager) is installed.
+ 2 - Install JSON server
+ 3 - Create students.json file
+ 4 - perform get,post,put,delete on this api
+ 5 - list of validations in postman
+ 6 - request and response body are in JSON format.
+ 7 - JSON datatypes
+ 8 - JSON SYNTAX
+ 9 - Capture and validate json path
+  
+
+
+## My Learning Notes
+ 1 - Install NodeJS --> check(this pc-properties-advanced systemsettings-environment variables-path)1)C:\Program Files\nodejs\  2)C:\Program Files\nodejs\node_modules are present,if not add manaually
+     In command prompt 1)node --version 2)npm --version
+ 2 - To run sample api's or dummy api's Install JSON server
+    In command prompt - npm install -g json-server 
+ 3 - students.json is the file which we maintain as a backend.By using this we can create our own api --> in command prompt run - json-server students.json.Whenever we close the cmd api stops running.Again we need to execute json-server students.json so minimise cmd.
+ 4 - create a new collection student and perform http request and observed the result(files attached)
+ 5 -  Status code, Response time, Response body, JSON schema, Headers, Data type and format, Authentication, Error messages, Field value correctness.
+ 6 -  Client and server communicate using JSON or XML; JSON is mainly used in REST for lightweight, encrypted data exchange, while XML is used in SOAP.so to validate data we need to understand json.
+      json format key and value pais ---- key : value
+      Key always in double qoutes {"key" : value}
+ 7 -  String: Text enclosed in double quotes — "name": "John" 
+      Number: Numeric values — "age": 25
+      Boolean: True or false values — "active": true
+      Array: Ordered list of values — "fruits": ["apple", "banana"]
+      Object: Collection of key-value pairs — "user": {"id": 1, "name": "John"}
+      Null: Represents empty or no value — "middleName": null
+8 -   {
+       "name": "John",
+        "age": 25,
+        "isActive": true,
+        "skills": ["Java", "Python"],
+        "address": {"city": "Delhi", "zip": "110001"},
+        "middleName": null
+      }
+ 
+       Data is in key/value pairs: "key": value
+       Keys must be strings enclosed in double quotes.
+       Values can be string, number, object, array, boolean, or null.
+       Objects are enclosed in curly braces { }.
+       Arrays are enclosed in square brackets [ ].
+       Key/value pairs are separated by commas.
+       No trailing comma is allowed after the last key/value pair.
+9 -   To validate json.It is important find json path we can use tools for finding Json path.
+
+       https://jsonpathfinder.com/
+       https://jsonpath.com/
+
+
+
+
+
+
+
+
+
+
+
 
