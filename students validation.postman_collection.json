@@ -1,0 +1,257 @@
+{
+	"info": {
+		"_postman_id": "1cda5d72-8d71-4a70-9ab3-218cdf8a94f4",
+		"name": "students validation",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "44527955"
+	},
+	"item": [
+		{
+			"name": "get single student",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"     });\r",
+							"\r",
+							"\r",
+							"pm.test(\"Content-Type header is present\", () => {\r",
+							"    pm.response.to.have.header(\"Content-Type\");\r",
+							"    });\r",
+							"\r",
+							"pm.test(\"Content-Type is application/json\", () => {\r",
+							"    pm.response.to.have.header(\"Content-Type\", \"application/json\");\r",
+							"    });    \r",
+							"\r",
+							"pm.test(\"Response time is less than 200ms\", () => {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"    });\r",
+							"\r",
+							" let jsonData = pm.response.json();\r",
+							"    pm.test(\"Validate response data types\", () => {\r",
+							"    pm.expect(jsonData.id).to.be.a(\"string\");\r",
+							"    pm.expect(jsonData.name).to.be.a(\"string\");\r",
+							"    pm.expect(jsonData.age).to.be.a(\"number\");\r",
+							"    pm.expect(jsonData.grade).to.be.a(\"string\");\r",
+							"    pm.expect(jsonData.subjects).to.be.an(\"array\");\r",
+							"    pm.expect(jsonData.subjects[0]).to.be.a(\"string\");\r",
+							"    });   \r",
+							"     \r",
+							"pm.test(\"Validate subjects array\", () => {\r",
+							"    //subjects include Spanish\r",
+							"    pm.expect(jsonData.subjects).to.include(\"Spanish\");\r",
+							"    //subjects array must inclued all listed\r",
+							"    pm.expect(jsonData.subjects).to.have.members([\"Computer Science\", \"Spanish\", \"Art\"]);\r",
+							" });     \r",
+							"\r",
+							"pm.test(\"Validate field values\", () => {\r",
+							"    pm.expect(jsonData.id).to.eql(\"3\");\r",
+							"    pm.expect(jsonData.name).to.eql(\"David Johnson\");\r",
+							"    pm.expect(jsonData.age).to.eql(16);\r",
+							"    pm.expect(jsonData.grade).to.eql(\"10th\");\r",
+							"    pm.expect(jsonData.subjects).to.include.members([\"Computer Science\", \"Spanish\", \"Art\"]);\r",
+							"}); \r",
+							"\r",
+							"var schema = {\r",
+							"  \"type\": \"object\",\r",
+							"  \"properties\": {\r",
+							"    \"id\": { \"type\": \"string\" },\r",
+							"    \"name\": { \"type\": \"string\" },\r",
+							"    \"age\": { \"type\": \"number\" },\r",
+							"    \"grade\": { \"type\": \"string\" },\r",
+							"    \"subjects\": { \r",
+							"      \"type\": \"array\",\r",
+							"      \"items\": { \"type\": \"string\" }\r",
+							"    }\r",
+							"  },\r",
+							"  \"required\": [\"id\", \"name\", \"age\", \"grade\", \"subjects\"]\r",
+							"}\r",
+							" //schema is valid or not\r",
+							" pm.test('schema is valid', ()=> {\r",
+							"    pm.expect(tv4.validate(jsonData,schema)).to.be.true;\r",
+							" });"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/students/3",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"students",
+						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get all student",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"     });\r",
+							"\r",
+							"\r",
+							"pm.test(\"Content-Type header is present\", () => {\r",
+							"    pm.response.to.have.header(\"Content-Type\");\r",
+							"    });\r",
+							"\r",
+							"pm.test(\"Content-Type is application/json\", () => {\r",
+							"    pm.response.to.have.header(\"Content-Type\", \"application/json\");\r",
+							"    });    \r",
+							"\r",
+							"pm.test(\"Response time is less than 200ms\", () => {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"    });\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/students/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"students",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create new student",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", () => {\r",
+							"    pm.response.to.have.status(201);\r",
+							"     });\r",
+							"\r",
+							"\r",
+							"pm.test(\"Content-Type header is present\", () => {\r",
+							"    pm.response.to.have.header(\"Content-Type\");\r",
+							"    });\r",
+							"\r",
+							"pm.test(\"Content-Type is application/json\", () => {\r",
+							"    pm.response.to.have.header(\"Content-Type\", \"application/json\");\r",
+							"    });    \r",
+							"\r",
+							"pm.test(\"Response time is less than 200ms\", () => {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"    });\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"name\": \"Hatim\",\r\n        \"age\": 17,\r\n        \"grade\": \"12th\",\r\n        \"subjects\": [\r\n            \"Maths\",\r\n            \"Physics\",\r\n            \"English\"\r\n        ]\r\n }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/students",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"students"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update student",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": \"2\",\r\n    \"name\": \"John Disooza\",\r\n    \"age\": 18,\r\n    \"grade\": \"11th\",\r\n    \"subjects\": [\r\n        \"Math\",\r\n        \"Physics\",\r\n        \"English\"\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/students/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"students",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete student",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/students/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"students",
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
