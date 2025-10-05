@@ -1,3 +1,88 @@
 Lession 5 - API Testing - Postman - Scripts & Types of Variables
+## Key points
+  1) Types of scripts in postman
+     Pre-request scripts
+     Test scripts/Post - request scripts
+
+  2) Types of variables in postman
+     Collection variables
+     Global variables
+     Environmental variables
+     Local variables
+     data variable
+
+## Learning notes
+  1 - Pre-request Scripts:
+       Executed before an API request is sent.
+     Test Scripts (Post-request Scripts):
+        Executed after a response is received.
+
+    if we have collection level ,folder and request level the execution order of pre request script and post request script Both pre-request and post-response scripts follow the same 
+    hierarchical order: Collection > Folder > Request. This means that scripts defined at a higher level (collection or folder) will always execute before or after scripts defined at
+    a lower level (folder or request) respectively, relative to the individual request's execution.
+
+------ What You Can See in the Console?------
+    Request details,Response details,Console logs,Variable values,Error debugging
+------Why It’s Useful---------------
+   Helps in debugging scripts and variables
+   Lets you see what’s actually being sent and received
+   Essential when working with dynamic data, tokens, or chained requests
+
+  * The purpose of a pre-request script in Postman is to run code before sending a request to set or modify variables, headers, or tokens dynamically.*
+    A pre-request script defined at the collection level is inherited by all folders and requests within that collection — meaning it runs before every
+    request inside the collection (unless overridden or supplemented by folder/request-level scripts).
+
+ 2 - Postman support different types of variables.
+     What: Variables store reusable values like URLs or tokens.
+     Why: They make requests dynamic, reduce repetition, and simplify environment switching.
+
+     ------ based on scope or accessibility, Postman variables are divided into five categories:--------
+
+          1️⃣ Global variables – accessible everywhere in Postman.(accesible in work space)
+          2️⃣ Collection variables – available to all requests within a specific collection.(accesible within collection)
+          3️⃣ Environment variables – specific to a chosen environment (e.g., dev, test, prod).
+          4️⃣ Local variables – exist only within a single request or script execution.(we can define it in prerequest script---pm.variables.set("url_local","https://reqres.in/"))
+            
+          5️⃣ Data variables – used when running collections with external data files (e.g., CSV/JSON).
+
+
+      reffering variable --- {{variable}}
+
+     You can set Global, Collection, and Environment variables either from the Postman UI or dynamically through pre-request scripts,
+     while Local variables can only be created within scripts and exist temporarily for that request.
+     pm.globals.set("variableName", "value");
+     pm.environment.set("variableName", "value");
+     pm.collectionVariables.set("variableName", "value");
+
+ 
+    get and unset - post script    
+     // Get
+     pm.globals.get("variableName");
+     // Delete
+     pm.globals.unset("variableName");
+
+    // Get
+    pm.environment.get("variableName");
+    // Delete
+    pm.environment.unset("variableName");
+
+    // Get
+    pm.collectionVariables.get("variableName");
+    // Delete
+    pm.collectionVariables.unset("variableName");
+
+
+    Use console.log() to debug:
+    console.log(pm.environment.get("variableName"));
+
+------------------------------------------------------------
+    Set: Creates or updates a variable with a value.
+    Get: Retrieves the current value of a variable.
+    Unset: Deletes a variable so it’s no longer available. 
+------------------------------------------------------------
+
+    
+ 
+ 
 
     
