@@ -1,0 +1,132 @@
+Lession 6 - API Testing - Postman - API Chaining
+
+##key points
+ 1 - What is API chaining?
+ 2 - Understanding API chaining with an example(local API) and (Remote API).
+ 3 - 
+     
+
+
+
+
+
+
+##Learning notes
+ 1 - API chaining means using the output of one API request as the input for another.
+     The response data (like an ID, token, or username) from one API is passed to the next request automatically.
+
+     API chaining helps create end-to-end API test scenarios.
+     Values from one response (like id, token, or userId) can be stored in variables using Tests tab or Pre-request Script.
+     The stored variables (Global, Environment, or Collection level) can then be reused in subsequent requests.
+
+ 2 ---- Students API(local API)-----
+      Create(POST) - retrieve(GET) - delete(DELETE)
+      Steps:
+      a)POST /students → creates student → saves id
+      b)GET /students/{{studentId}} → retrieves student by id
+      c)DELETE /students/{{studentId}} → deletes same student
+      First create a student -- Then in postrequest tab ( var jsonData = JSON.parse(responsebody); - It converts the raw JSON response text (responseBody) into a JavaScript object (jsonData) 
+      so you can easily access its values.)---( pm.environment.set("id", jsonData.id); - his saves the id into an environment variable called id for use in the next request — that’s how API chaining works.
+      ie,In the first request we are sending the body and creating new student record,from that we are extracting the id,create an environment variable and store that id value,In second request we are reffering 
+      the environment variable which is id and get the data.In 3rd request also we are reffering the environment variable.
+
+---------url--https://gorest.co.in/(Remote API)---------
+         End points
+         POST                 /public/v2/users	           Create a new user
+         GET                  /public/v2/users/7482856	   Get user details
+         PUT|PATCH            /public/v2/users/7482856	   Update user details
+         DELETE               /public/v2/users/7482856	   Delete user
+
+         Create the access token---eb1b8000929dfbac470c7096bb1318b3d280dc832c9307feae15e6223311da60
+
+         For post and put/patch we need response body.
+         {
+         "name":"DANTIM", 
+         "gender":"male", 
+         "email":"dantim@gmail.com", 
+         "status":"active"
+         }
+
+
+        it’s better to provide the authorization token at the collection level — so all requests inside that collection automatically use the same token, avoiding repetition and ensuring easier maintenance.
+        make sure each request’s authorization type is set to “Inherit auth from parent” so all requests automatically use the same authorization settings.
+
+
+        Generate emailid and name randomly,for that before sending the post request,we need to write script in pre request script.
+      -----  Var random=Math.random().toString(36).substring(2);--------
+        That line of JavaScript is used to generate a random string, often for testing purposes like creating unique usernames, emails, or IDs in Postman.And store it in a variable.
+     ------Var useremail="jim"+random+"@gmail.com";--------
+     -------Var username="jim"+random;------------
+         It creates a unique email and username by adding a random string to the name "jim"
+         Then we need to add this to environment variables.Then it can be used in request body.
+     ---------pm.environment.set("email_env",useremail);---------
+      --------- pm.environment.set("name_env",username);---------
+         Then this variable should be refer inside the body
+          {
+         "name":"{{name_env}}", 
+         "gender":"male", 
+         "email":"{{email_env}}", 
+         "status":"active"
+         }
+
+        When executing everytime new emailid and name will created.
+
+        In post request
+   ------  var jsonData=JSON.parse(responseBody); --------
+   ------  pm.environment.set("userid_env",jsonData.id); -------
+        It converts the JSON response into an object and saves the id value from it into an environment variable named userid_env.
+
+
+     Then we need to verify response data.
+       in get post request
+       //validate json field in the response 
+      pm.test("values of json field", ()=>
+      {
+      var jsonData=pm.response.json();
+      pm.expect(jsonData.id).to.eql(pm.environment.get("userid_env"));
+      pm.expect(jsonData.email).to.eql(pm.environment.get("email_env"));
+      pm.expect(jsonData.name).to.eql(pm.environment.get("name_env"));
+     }
+     )
+
+     This test validates that the id, email, and name fields in the API response match the stored environment variables.
+     It ensures the response data is correct and consistent with the values saved from previous requests.
+
+     For put request same prerequest script as in post.
+
+
+     After creating API chaining, all requests become interdependent — so you should run the entire collection (or folder) at once to ensure each request executes in sequence and passes data correctly.
+
+     At post request ogf delete request we can unset all the environment variables.
+    pm.environment.unset("email_env");
+    pm.environment.unset("name_env");
+    pm.environment.unset("userid_env");
+
+
+    unsetting environment variables after execution helps with memory and data management in Postman.
+
+-----------------------------------------------------------------------------------------------------------------------
+
+Performed API chaining using the GoRest API to automate a complete user workflow.
+Created a new user, retrieved and validated the user details, and deleted the same user.
+Used environment variables to store dynamic values like userId, name, and email between requests.
+Executed all requests in sequence with Bearer Token authorization set at the collection level.
+Unset environment variables after execution to maintain a clean and reusable workspace.
+      
+    
+
+   
+
+
+
+       
+     
+   
+
+
+
+
+
+
+
+     
