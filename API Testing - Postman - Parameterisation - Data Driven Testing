@@ -1,0 +1,106 @@
+Lesson 7 - API Testing - Postman - Parameterisation - Data Driven Testing
+
+#key points
+1)Data parameters or data variables
+2)Books API
+3)Creating,displaying and deleting an order(Chaining and datadriven)
+
+
+
+
+
+#learning notes
+1)Data paramters or datavaibales is nothing but you can specify the variable and values in external files(csv/json).ie we will have data in that files and we will use that data as part of our request.(on the run time 
+  we will get data from the file and use it as part our request)
+2)Firstly POST and create access token..GET status of books,GET list of books,GET single book,Submit order.
+3)-----Chaining ------
+      a)POST(create an order),we get an order id
+      b)GET(display the order),by using the order id
+      c)DELETE(delete the order),by using the order id
+      As soon as sending the post request create environment variable of order id and by using the variable we are able to display and delete the order.
+ -------datadriven---
+     To send the POST request we need different sets of data(different book id and customer name),we take different set of data from external file.(Multiple post request,mutiple order id to display and delete)
+
+------------POST---------------
+     In post request body
+        {
+         "bookId": 1,
+         "customerName": "Anu"
+        }
+
+     In excelsheet(csv) we have BookID,CustomerName.Then we need to pass this as part of our post request
+     Change post request body
+        {
+         "bookId": "{{BookID}}",
+         "customerName": "{{CustomerName}}"
+        }
+
+        The parameter comes from csv file..(it should be same as column name in csv).At run time we need to browse that file.
+
+
+    In post script(test) section we need verify the statuscode
+     pm.test("status code is 201"  ()=>
+        {
+         pm.response.to.have.status(201);
+        }
+     );
+     //for displaying and deleting we need orderid,so capture it in environment variable
+              Var jsonData=JSON.parse(responsebody);                //capture entire response and store in jsonData(variable)
+              pm.environment.set("orderid_env",jsonData.orderId);   //from the response body,we need to extract orderid
+
+      //WE ARE SENDING THE POST REQUEST BY TAKING THE PARAMETER FROM EXCEL(CSV) AND ONCE YOU GET THE RESPONSE VALIDATE STATUS CODE,TAKING THE ORDER ID AND CREATING THE ENVIRONMENT VARIABLE
+
+     ------------------GET-------------------------
+      https://simple-books-api.glitch.me/orders/{{orderid_env}}                ----here chaining is happen,orderid from post request is used.
+      Postman has snippets on the right-hand side of the request editor,through the snippet we can directly insert the code.
+    //in postscript tab of get
+    pm.test("Status code is 200", function () 
+     {
+    pm.response.to.have.status(200);
+      });
+
+    //to verify the order id generated in post request is same as in the get requests--- response
+    pm.test("Test order present in the response body" , ()=>
+     {
+      Var jsonData=pm.response.json();
+      pm.expect(jsonData.Id).to.eql(pm.environment.get("orderid_env"));
+     }
+    );
+  //WE ARE CHECKING STATUSCODE,CHECKING THE ORDERID WE ARE PASSED AS PART OF GET REQUEST EQUALS TO ORDERID IN THE RESPONSE OF GET REQUEST
+
+   ---------------------DELETE---------------------------------
+     https://simple-books-api.glitch.me/orders/{{orderid_env}}    
+
+    in postrequest script
+     pm.test("Status code is 204", function () 
+     {
+    pm.response.to.have.status(204);
+      });
+
+    pm.environment.unset("orderid_env");   //after deleting,delete the environment variable
+
+
+    We should run this collection multiple times with multiple set of data.As this request are connected we need to execute  entire collection.select Iterations(how many times we need to run entire collection-
+    it depends on how many number of records we have.).we can set delay.choose file(test datafile-csv/json).option for view the file(preview).
+    We can convert csv to json(online).
+
+
+
+
+
+    
+      
+   
+
+
+
+   
+    
+    
+
+
+
+
+       
+
+     
