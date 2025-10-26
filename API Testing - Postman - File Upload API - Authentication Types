@@ -1,0 +1,79 @@
+Lesson 8 - API Testing - Postman - File Upload API - Authentication Types
+
+#Keypoints
+1 - File Upload Rest API
+2 - Authorization and Authentication
+3 - Types of Authorizations in postman
+4 - Swagger and cURL
+
+
+#LearningNotes
+1 - Create a new request 
+    Choose POST method
+    Enter the API endpoint (e.g., https://example.com/upload)
+    Go to the Body tab → select form-data
+    Add a new key (e.g., file for single files and files for multiple file)
+    Change the type from Text → File (if choosing text we have to give the path of the file)
+    Click “Choose Files” and upload your test file
+    Click Send
+    Check the response
+    Status Code: 200 (success)
+    Response Body: File URL, Upload confirmation, etc. We can add vaildations.
+
+    Common Checks
+    File upload succeeds (status 200)
+    File format validation (only PDF, JPG, etc.)
+    Size limit validation
+    File URL is valid and accessible.
+
+2 - Authorization means giving a verified user or system permission to access specific API resources or perform actions (like read, write, delete).
+    Authentication = Who are you?
+    Authorization = What are you allowed to do?
+
+   ----How to Test Authorization in Postman----
+   Go to Authorization tab in your request.
+   Choose the required auth type (Basic, Bearer Token, etc.).
+   Add credentials, token, or key.
+   Send the request.
+   Verify:
+     Authorized users → 200 OK
+     Unauthorized users → 401/403
+
+3 - No Auth - Open APIs — no authentication required
+    Basic Auth - Username & Password encoded in Base64 and sent in the request header.
+    Digest Auth - Digest Authentication is a more secure form of Basic Auth that uses hashing to protect credentials before sending them to the server.(username and password send in encrypted format).
+    Bearer Token Authentication -  Bearer Token Authentication uses a security token (usually issued after login) that’s sent in the request header to authorize API access.
+    API Key Authentication - API Key Authentication uses a unique key provided by the server to identify and authorize the client making API requests.
+    In API Key Authentication, the key and value are sent as a key–value pair, usually in the Headers or Params of the request.
+    OAuth 1.0 - Token-based auth with client ID & secret
+    OAuth 2.0 - Token-based, modern and secure
+
+    ---OAuth 2.0 flow---
+    Client Registration:
+       The application gets a Client ID and Client Secret from the authorization server.
+    Authorization & Token Request:
+       The user logs in and approves access → the client sends the Client ID and Secret to get an Access Token.
+    Access Protected Resources:
+       The client uses the Access Token in the request header to access the API securely.
+
+
+  4 - Swagger - Interactive documentation.
+      Provides an interactive API documentation (usually at /swagger or /api-docs)
+      Lets you send API requests directly from the browser (like Postman)
+      Displays all endpoints, methods, parameters, and response formats
+     -------------- Swagger----------------                                   ---------------Postman-----------------
+     Used to design, document, and visualize APIs                             Used to test, debug, and automate APIs
+     API documentation and exploration                                        API testing and collection management
+     Interactive web-based documentation                                      Desktop or web app for sending API requests
+
+
+     cURL - Client URL
+     we can run in cmd prompt also.
+     Import - raw text - continue - import button - then we can save to the particular location
+     cURL is a command-line tool used to send HTTP requests and interact with APIs directly from the terminal.
+     After completion of testing - view documentation - we can publish it too.
+
+     With cURL, you can include everything—HTTP method, headers, body, authentication, and query parameters—in a single command, 
+     so you don’t have to set them separately as you often do in GUI tools or manual request setups.
+    
+
